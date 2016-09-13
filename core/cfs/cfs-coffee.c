@@ -807,7 +807,9 @@ merge_log(coffee_page_t file_page, int extend)
 
   offset = 0;
   do {
-    char buf[hdr.log_record_size == 0 ? COFFEE_PAGE_SIZE : hdr.log_record_size];
+	char *buf;
+  	uint32_t bufsize=hdr.log_record_size == 0 ? COFFEE_PAGE_SIZE : hdr.log_record_size;
+  	buf=malloc(bufsize);
     n = cfs_read(fd, buf, sizeof(buf));
     if(n < 0) {
       remove_by_page(new_file->page, !REMOVE_LOG, !CLOSE_FDS, ALLOW_GC);
